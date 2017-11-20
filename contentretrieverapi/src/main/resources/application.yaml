@@ -1,0 +1,7 @@
+mainModule:
+  url: 127.0.0.1/registerslaves
+
+currentModule:
+  inputUrl: 127.0.0.1/
+  mainUrl: http://www.homes.bg
+  sourceName: homes.bg
