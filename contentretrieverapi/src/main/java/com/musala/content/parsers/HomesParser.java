@@ -1,12 +1,11 @@
 package com.musala.content.parsers;
 
-import com.musala.content.Page;
+import com.musala.content.Source;
 
-public class HomesParser implements Parser{
-
+public class HomesParser implements Parser {
 
     @Override
-    public void parse(Page page) {
+    public void parse(Source source) {
 
     }
 

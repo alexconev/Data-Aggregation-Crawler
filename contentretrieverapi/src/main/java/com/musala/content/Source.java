@@ -1,6 +1,6 @@
 package com.musala.content;
 
-public class Page {
+public class Source {
     private String content;
     private String url;
 }

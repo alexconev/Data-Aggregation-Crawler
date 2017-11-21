@@ -1,10 +1,10 @@
 package com.musala.content.parsers;
 
-import com.musala.content.Page;
+import com.musala.content.Source;
 
 interface Parser {
 
-    void parse(Page page);
+    void parse(Source source);
 
     void sendContent();
 }
