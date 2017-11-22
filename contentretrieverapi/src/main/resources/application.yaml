@@ -1,16 +1,19 @@
 mainModule:
-  url: http://127.0.0.1/registerslaves
+  registerUrl: http://localhost:8080/register
+  contentUrl: http://localhost:8080/content
+  queueUrl: http://localhost:8080/queue
 
 currentModule:
-  inputUrl: 127.0.0.1/
-  mainUrl: http://www.homes.bg
+  moduleUrl: http://localhost:8081/
+  mainUrl: http://www.homes.bg/
   sourceName: homes.bg
 
 server:
-  port: 80
+  port: 8081
 
 logging:
   file: app.log
   level:
+    root: OFF
     com.musala.content: DEBUG
 

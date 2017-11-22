@@ -1,33 +1,27 @@
 package com.musala.content.registerer;
 
-import org.apache.http.client.entity.UrlEncodedFormEntity;
+import com.musala.content.utils.ConnectionUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class Registerer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Registerer.class);
 
-    @Value("${mainModule.url}")
+    @Value("${mainModule.registerUrl}")
     private String mainModuleUrl;
 
-    @Value("${currentModule.inputUrl}")
-    private String inputUrl;
+    @Value("${currentModule.moduleUrl}")
+    private String moduleUrl;
 
     @Value("${currentModule.mainUrl}")
     private String mainUrl;
@@ -37,31 +31,21 @@ public class Registerer {
 
     @EventListener
     public void register(ContextRefreshedEvent event) {
-        final Integer OK = 200;
-        CloseableHttpClient client = HttpClients.createDefault();
 
-        try {
-            HttpPost httpPost = new HttpPost(mainModuleUrl);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("moduleUrl", moduleUrl);
+        parameters.put("parseUrl", mainUrl);
+        parameters.put("source", sourceName);
 
-            List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-            params.add(new BasicNameValuePair("moduleUrl", inputUrl));
-            params.add(new BasicNameValuePair("parseUrl", mainUrl));
-            params.add(new BasicNameValuePair("source", sourceName));
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
+        CloseableHttpResponse response = ConnectionUtils.makePostRequest(mainModuleUrl, parameters);
 
-            CloseableHttpResponse response = client.execute(httpPost);
-            LOGGER.info(response.getStatusLine().getStatusCode() == OK ? "Successfully registered" : "Not registered");
-        } catch (IOException e) {
-            LOGGER.debug(e.getMessage(), e);
-        } finally {
-            if (client != null) {
-                try {
-                    client.close();
-                } catch (IOException e) {
-                    LOGGER.debug("", e);
-                }
-            }
-        }
+        LOGGER.info(isSuccessfull(response) ? "Successfully registered" : "Not registered");
     }
+
+    private boolean isSuccessfull(CloseableHttpResponse response) {
+        final Integer ok = 200;
+        return response != null && response.getStatusLine().getStatusCode() == ok;
+    }
+
 
 }

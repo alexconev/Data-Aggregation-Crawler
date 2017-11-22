@@ -1,10 +1,10 @@
 package com.musala.content.parsers;
 
-import com.musala.content.Source;
+import com.musala.content.utils.Source;
+
+import java.util.Map;
 
 interface Parser {
 
-    void parse(Source source);
-
-    void sendContent();
+    public Map<String, String> parse(Source source);
 }
