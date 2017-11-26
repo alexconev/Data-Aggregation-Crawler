@@ -6,5 +6,5 @@ import java.util.Map;
 
 interface Parser {
 
-    public Map<String, String> parse(Source source);
+    Map<String, String> parse(Source source);
 }

@@ -39,10 +39,10 @@ public class Registerer {
 
         CloseableHttpResponse response = ConnectionUtils.makePostRequest(mainModuleUrl, parameters);
 
-        LOGGER.info(isSuccessfull(response) ? "Successfully registered" : "Not registered");
+        LOGGER.info(isSuccessful(response) ? "Successfully registered" : "Not registered");
     }
 
-    private boolean isSuccessfull(CloseableHttpResponse response) {
+    private boolean isSuccessful(CloseableHttpResponse response) {
         final Integer ok = 200;
         return response != null && response.getStatusLine().getStatusCode() == ok;
     }

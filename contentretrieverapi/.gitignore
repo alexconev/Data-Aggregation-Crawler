@@ -164,4 +164,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+#ignore log files
+*.log
+
 # End of https://www.gitignore.io/api/linux,windows,eclipse,intellij
