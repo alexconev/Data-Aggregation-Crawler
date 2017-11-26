@@ -1,20 +1,41 @@
 package com.musala.content.urlfetcher;
 
+import com.musala.content.registerer.Registerer;
 import com.musala.content.utils.Source;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class UrlFetcher {
 
-    // TODO
+    private static final Logger LOGGER = LoggerFactory.getLogger(Registerer.class);
+
+    // TODO add description
     public static Set<String> getUrls(Source source) {
-        Set<String> links = new HashSet<>();
+        Document doc = Jsoup.parse(source.getContent());
+        Set<String> result = new HashSet<>();
 
-        links.add("https://www.homes.bg/as957180");
-        links.add("https://www.homes.bg/as957179");
-        links.add("https://www.homes.bg/as957178");
+        Element content = doc.getElementById("content");
 
-        return links;
+        if (content == null) {
+            //TODO: handle this case
+            LOGGER.info(String.format("The current link: %s has not appropriate content tag!", source.getUrl()));
+
+        } else {
+            Elements links = content.getElementsByTag("a");
+            for (Element link : links) {
+                result.add(link.attr("href"));
+            }
+            LOGGER.info(String.format("The url %s contains %d sub-urls", source.getUrl(), result.size()));
+        }
+
+        return result;
     }
 }

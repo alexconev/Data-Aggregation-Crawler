@@ -1,12 +1,17 @@
 package com.musala.content.utils;
 
 import com.musala.content.registerer.Registerer;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -18,20 +23,28 @@ public class Source {
 
     public Source(String url) {
         this.url = url;
-        this.content = fetchContent();
+        this.content = fetchJSoupContent();
+    }
+
+    private String fetchJSoupContent() {
+        try {
+            Document doc = Jsoup.connect(url).timeout(3000).get();
+            return doc.outerHtml();
+        } catch (IOException e) {
+            LOGGER.debug("Cannot read content from provided URL", e);
+        }
+        return "";
     }
 
     private String fetchContent() {
-        URL oracle = null;
-        BufferedReader input = null;
         StringBuilder sb = new StringBuilder();
-        String inputLine;
 
         try {
-            oracle = new URL(url);
+            URL url = new URL(this.url);
 
-            input = new BufferedReader(new InputStreamReader(oracle.openStream()));
+            BufferedReader input = new BufferedReader(new InputStreamReader(url.openStream()));
 
+            String inputLine;
             while ((inputLine = input.readLine()) != null) {
                 sb.append(inputLine);
             }
