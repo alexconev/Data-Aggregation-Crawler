@@ -1,6 +1,6 @@
-package com.musala.content.utils;
+package com.musala.content.model;
 
-import com.musala.content.registerer.Registerer;
+import com.musala.content.service.registerer.Registerer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

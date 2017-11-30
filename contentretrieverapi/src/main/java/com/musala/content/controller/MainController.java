@@ -1,4 +1,4 @@
-package com.musala.content;
+package com.musala.content.controller;
 
 import com.musala.content.service.UrlService;
 

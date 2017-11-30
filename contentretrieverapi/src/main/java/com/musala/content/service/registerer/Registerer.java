@@ -1,4 +1,4 @@
-package com.musala.content.registerer;
+package com.musala.content.service.registerer;
 
 import com.musala.content.utils.ConnectionUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;

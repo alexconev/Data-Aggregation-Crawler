@@ -1,9 +1,9 @@
 package com.musala.content.service;
 
-import com.musala.content.parsers.HomesParser;
-import com.musala.content.urlfetcher.UrlFetcher;
+import com.musala.content.service.parsers.HomesParser;
+import com.musala.content.service.urlfetcher.UrlFetcher;
 
-import com.musala.content.utils.Source;
+import com.musala.content.model.Source;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

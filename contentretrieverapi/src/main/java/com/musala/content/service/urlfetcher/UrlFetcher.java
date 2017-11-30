@@ -1,7 +1,7 @@
-package com.musala.content.urlfetcher;
+package com.musala.content.service.urlfetcher;
 
-import com.musala.content.registerer.Registerer;
-import com.musala.content.utils.Source;
+import com.musala.content.service.registerer.Registerer;
+import com.musala.content.model.Source;
 
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;

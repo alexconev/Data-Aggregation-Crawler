@@ -1,6 +1,6 @@
-package com.musala.content.urlfetcher;
+package com.musala.content.service.urlfetcher;
 
-import com.musala.content.utils.Source;
+import com.musala.content.model.Source;
 
 import java.util.Set;
 

@@ -1,6 +1,6 @@
-package com.musala.content.parsers;
+package com.musala.content.service.parsers;
 
-import com.musala.content.utils.Source;
+import com.musala.content.model.Source;
 
 import java.util.HashMap;
 import java.util.Map;
