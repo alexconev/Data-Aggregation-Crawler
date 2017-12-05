@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -25,25 +24,37 @@ public class UrlFetcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Registerer.class);
 
-    // TODO add description
+    /**
+     * Extract all of the sub-URL of the given url in the @{@link Source}.
+     * The return result is in absolute URL form - <protocol>://<web_server_name>/<folder>/<file> (ex:http://www.example.com/index.html).
+     *
+     * @param source The target url
+     * @return Set of URLs
+     */
     public Set<String> getUrls(Source source) {
         Document doc = Jsoup.parse(source.getContent());
-        Set<String> result = new HashSet<>();
 
-        Element content = doc.getElementById("content");
-
-        if (content == null) {
-            //TODO: handle this case
-            LOGGER.info(String.format("The current link: %s has not appropriate content tag!", source.getUrl()));
-
-        } else {
-            Elements links = content.getElementsByTag("a");
-            for (Element link : links) {
-                result.add(link.attr("href"));
-            }
-            LOGGER.info(String.format("The url %s contains %d sub-urls", source.getUrl(), result.size()));
+        Element element = doc.getElementById("content");
+        if (element != null) {
+            element.setBaseUri(source.getUrl());
+            return getUrlForElement(element);
         }
 
-        return result;
+        LOGGER.info(String.format("The current link: %s has not appropriate content tag!", source.getUrl()));
+        return null;
     }
+
+    private Set<String> getUrlForElement(Element element) {
+        UrlStore store = UrlStore.createStoreFromUrl(element.baseUri());
+        Elements links = element.getElementsByTag("a");
+        for (Element link : links) {
+            store.addUrl(link.attr("href"));
+        }
+
+
+        LOGGER.info(String.format("The url %s contains %d sub-urls", store.getProcessedUrl(), store.getChildUrls().size()));
+
+        return store.getChildUrls();
+    }
+
 }
