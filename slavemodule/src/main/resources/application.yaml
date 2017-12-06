@@ -1,5 +1,5 @@
 mainModule:
-  registerUrl: http://localhost:8080/register
+  registerUrl: http://localhost:8080/registerer
   contentUrl: http://localhost:8080/content
   queueUrl: http://localhost:8080/queue
 

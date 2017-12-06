@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+logging:
+  file: app.log
+  level:
+    root: OFF
+    com.musala.content: DEBUG
+
