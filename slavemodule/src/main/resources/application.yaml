@@ -5,8 +5,8 @@ mainModule:
 
 currentModule:
   moduleUrl: http://localhost:8081/
-  mainUrl: http://www.homes.bg/
-  sourceName: homes.bg
+  mainUrl: https://www.wikipedia.org/
+  sourceName: wikipedia.org
 
 server:
   port: 8081

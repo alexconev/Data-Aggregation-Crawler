@@ -4,7 +4,7 @@ import com.musala.content.model.Source;
 
 import java.util.Map;
 
-interface Parser {
+public interface Parser {
 
     Map<String, String> parse(Source source);
 }

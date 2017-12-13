@@ -1,11 +1,16 @@
 package com.musala.content.service;
 
-import com.musala.content.service.parsers.HomesParser;
+import com.musala.content.service.parsers.Parser;
+import com.musala.content.service.parsers.ParserFactory;
 import com.musala.content.service.urlfetcher.UrlFetcher;
+
 
 import com.musala.content.model.Source;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -13,25 +18,39 @@ import java.util.Set;
 
 @Service
 public class UrlServiceImpl implements UrlService {
+	 
+	private static final Logger LOGGER = LoggerFactory.getLogger(UrlServiceImpl.class);
 
-    @Autowired
-    private UrlFetcher urlFetcher;
+	@Value("${currentModule.sourceName}")
+	private String sourceName;
 
-    public UrlServiceImpl () {
-        //NO-OP
-    }
+	@Autowired
+	private UrlFetcher urlFetcher;
 
-    @Override
-    public String extractUrlContent(String url) {
-        Source data = new Source(url);
-        JSONObject extractedResults = new JSONObject();
+	public UrlServiceImpl() {
+		// NO-OP
+	}
 
-        Set<String> fetchedUrls = urlFetcher.getUrls(data);
-        extractedResults.put("urls", fetchedUrls);
+	@Override
+	public String extractUrlContent(String url) {
+		Source data = new Source(url);
+		JSONObject extractedResults = new JSONObject();
 
-        Map<String, String> extractedData = new HomesParser().parse(data);
-        extractedResults.put("data", extractedData);
+		Set<String> fetchedUrls = urlFetcher.getUrls(data);
+		extractedResults.put("urls", fetchedUrls);
 
-        return extractedResults.toString();
-    }
+		ParserFactory pf = new ParserFactory();
+		Parser parser = pf.getParser(sourceName);
+
+		Map<String, String> extractedData = parser.parse(data);
+		
+		if(extractedData == null){
+			 LOGGER.warn(String.format("There is NO extracted data"));
+			 return null;
+		}
+
+		extractedResults.put("data", extractedData);
+
+		return extractedResults.toString();
+	}
 }
